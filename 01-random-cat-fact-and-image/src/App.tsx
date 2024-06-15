@@ -23,10 +23,7 @@ function App() {
   }, [fact]);
 
   return (
-    <main
-      className="bg-gray-900 min-h-screen flex items-center justify-center"
-      style={{ backgroundColor: '#0c1016', color: '#7DD3F6' }}
-    >
+    <main className="bg-dark-blue text-primary-blue min-h-screen flex items-center justify-center">
       <div className="flex flex-col items-center">
         <button
           onClick={getCustomFact}
