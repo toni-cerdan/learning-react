@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --dark-blue-color: #0c1016;
+  --primary-blue-color: #7dd3f6;
+}
+
+.bg-dark-blue {
+  background-color: var(--dark-blue-color);
+}
+
+.hover\:bg-primary-blue {
+  &:hover {
+    background-color: var(--primary-blue-color);
+  }
+}
+
+.text-primary-blue {
+  color: var(--primary-blue-color);
+}
+
+.hover\:text-dark-blue {
+  &:hover {
+    color: var(--dark-blue-color);
+  }
+}
+
+.border-primary-blue {
+  border-color: var(--primary-blue-color);
+}
