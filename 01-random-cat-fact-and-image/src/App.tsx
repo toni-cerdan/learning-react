@@ -1,14 +1,26 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+const catFactUrl = 'https://catfact.ninja/fact';
+const catImageUrl = 'https://cataas.com/cat/says';
 
 function App() {
-  const [fact, setFact] = useState('test');
-  const url = 'https://catfact.ninja/fact';
+  const [fact, setFact] = useState<string>();
+  const [catImageSrc, setCatImageSrc] = useState<string>();
 
   const getCustomFact = () => {
-    fetch(url)
+    fetch(catFactUrl)
       .then(res => res.json())
       .then(({ fact }) => setFact(fact));
   };
+
+  useEffect(() => {
+    if (!fact) return;
+
+    const factFirstWord = fact.split(' ')[0];
+    fetch(catImageUrl + '/' + factFirstWord).then(({ url }) =>
+      setCatImageSrc(url)
+    );
+  }, [fact]);
 
   return (
     <main
@@ -25,7 +37,11 @@ function App() {
         <div id="random-fact" className={!fact ? 'hidden' : ''}>
           {fact}
         </div>
-        <img className="hidden" src="" alt="Random cat image" />
+        <img
+          className={!fact ? 'hidden' : ''}
+          src={catImageSrc}
+          alt="Random cat image"
+        />
       </div>
     </main>
   );
