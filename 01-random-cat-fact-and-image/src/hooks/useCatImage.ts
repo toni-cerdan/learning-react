@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CAT_IMAGE_URL } from '../constants';
+import { CAT_IMAGE_URL } from '../utils/constants';
 
 const useCatImage = (fact: string) => {
   const [imageUrl, setImageUrl] = useState<string>('');

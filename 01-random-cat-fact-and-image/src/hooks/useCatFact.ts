@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CAT_FACT_URL } from '../constants';
+import { CAT_FACT_URL } from '../utils/constants';
 
 const useCatFact = () => {
   const [fact, setFact] = useState<string>('');
