@@ -2,7 +2,7 @@ import useCatFact from './hooks/useCatFact';
 import useCatImage from './hooks/useCatImage';
 
 function App() {
-  const { fact, error: factError, getRandomFact } = useCatFact();
+  const { fact, error: factError, refreshFact } = useCatFact();
   const { imageUrl, error: imageError } = useCatImage(fact);
 
   return (
@@ -13,7 +13,7 @@ function App() {
       <main className="bg-dark-blue text-primary-blue min-h-screen flex justify-center font-mono">
         <div className="flex flex-col items-center">
           <button
-            onClick={getRandomFact}
+            onClick={refreshFact}
             className="border-2 rounded-lg border-primary-blue bg-dark-blue hover:bg-primary-blue text-primary-blue hover:text-dark-blue p-2 mb-4"
           >
             Get custom fact

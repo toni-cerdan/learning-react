@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CAT_IMAGE_URL } from '../utils/constants';
+import { getCatImage } from '../services/catImage';
 
 const useCatImage = (fact: string) => {
   const [imageUrl, setImageUrl] = useState<string>('');
@@ -7,19 +7,15 @@ const useCatImage = (fact: string) => {
 
   useEffect(() => {
     if (!fact) return;
-    const factFirstWord = fact.split(' ')[0];
-
     const fetchImage = async () => {
-      try {
-        const res = await fetch(
-          `${CAT_IMAGE_URL}/says/${factFirstWord}?fontColor=white`
-        );
-        if (!res.ok) setError('Error fetching cat image');
-        setError('');
-        setImageUrl(res.url);
-      } catch (err) {
-        setError('Sorry! An error occurred fetching the cat image data.');
+      const factFirstWord = fact.split(' ')[0];
+      const catImageUrl = await getCatImage(factFirstWord);
+      if (!catImageUrl) {
+        setError('Error fetching cat image');
+        return;
       }
+      setError('');
+      setImageUrl(catImageUrl);
     };
 
     fetchImage();
