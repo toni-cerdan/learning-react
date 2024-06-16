@@ -5,6 +5,11 @@
 :root {
   --dark-blue-color: #0c1016;
   --primary-blue-color: #7dd3f6;
+
+  background-color: var(--dark-blue-color);
+  color: var(--primary-blue-color);
+  display: flex;
+  justify-content: center;
 }
 
 .bg-dark-blue {
