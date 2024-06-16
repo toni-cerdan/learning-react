@@ -1,24 +1,23 @@
 import { useEffect, useState } from 'react';
-
-const catFactUrl = 'https://catfact.ninja/fact';
-const catImageUrl = 'https://cataas.com/cat/says';
+import { CAT_FACT_URL, CAT_IMAGE_URL } from './constants';
 
 function App() {
   const [fact, setFact] = useState<string>();
-  const [catImageSrc, setCatImageSrc] = useState<string>();
+  const [imageUrl, setImageUrl] = useState<string>();
 
-  const getCustomFact = () => {
-    fetch(catFactUrl)
-      .then(res => res.json())
-      .then(({ fact }) => setFact(fact));
+  const getRandomFact = async () => {
+    const res = await fetch(CAT_FACT_URL);
+    const { fact } = await res.json();
+    setFact(fact);
   };
 
   useEffect(() => {
     if (!fact) return;
-
     const factFirstWord = fact.split(' ')[0];
-    fetch(catImageUrl + '/' + factFirstWord).then(({ url }) =>
-      setCatImageSrc(url)
+    fetch(`${CAT_IMAGE_URL}/says/${factFirstWord}?fontColor=white`).then(
+      ({ url }) => {
+        setImageUrl(url);
+      }
     );
   }, [fact]);
 
@@ -26,7 +25,7 @@ function App() {
     <main className="bg-dark-blue text-primary-blue min-h-screen flex items-center justify-center">
       <div className="flex flex-col items-center">
         <button
-          onClick={getCustomFact}
+          onClick={getRandomFact}
           className="border-2 rounded-lg border-primary-blue bg-dark-blue hover:bg-primary-blue text-primary-blue hover:text-dark-blue p-2 mb-4"
         >
           Get custom fact
@@ -35,9 +34,10 @@ function App() {
           {fact}
         </div>
         <img
-          className={!fact ? 'hidden' : ''}
-          src={catImageSrc}
+          className={!imageUrl ? 'hidden' : ''}
+          src={imageUrl}
           alt="Random cat image"
+          loading="lazy"
         />
       </div>
     </main>
