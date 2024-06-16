@@ -1,25 +1,9 @@
-import { useEffect, useState } from 'react';
-import { CAT_FACT_URL, CAT_IMAGE_URL } from './constants';
+import useCatFact from './hooks/useCatFact';
+import useCatImage from './hooks/useCatImage';
 
 function App() {
-  const [fact, setFact] = useState<string>();
-  const [imageUrl, setImageUrl] = useState<string>();
-
-  const getRandomFact = async () => {
-    const res = await fetch(CAT_FACT_URL);
-    const { fact } = await res.json();
-    setFact(fact);
-  };
-
-  useEffect(() => {
-    if (!fact) return;
-    const factFirstWord = fact.split(' ')[0];
-    fetch(`${CAT_IMAGE_URL}/says/${factFirstWord}?fontColor=white`).then(
-      ({ url }) => {
-        setImageUrl(url);
-      }
-    );
-  }, [fact]);
+  const { fact, error: factError, getRandomFact } = useCatFact();
+  const { imageUrl, error: imageError } = useCatImage(fact);
 
   return (
     <>
@@ -34,15 +18,25 @@ function App() {
           >
             Get custom fact
           </button>
-          <div id="random-fact" className={` p-5 ${!fact ? 'hidden' : ''}`}>
-            {fact}
-          </div>
-          <img
-            className={!imageUrl ? 'hidden' : ''}
-            src={imageUrl}
-            alt="Random cat image"
-            loading="lazy"
-          />
+          {factError ? (
+            <div className="p-5">{factError}</div>
+          ) : (
+            <>
+              {imageError ? (
+                <div>{imageError}</div>
+              ) : (
+                <>
+                  <div className="p-5">{fact}</div>
+                  <img
+                    className={!imageUrl ? 'hidden' : ''}
+                    src={imageUrl}
+                    alt="Random cat image"
+                    loading="lazy"
+                  />
+                </>
+              )}
+            </>
+          )}
         </div>
       </main>
     </>
